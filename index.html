@@ -3,53 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    :root {
+      --bg-main: #1e1e2e;
+      --bg-card: #2a2a40;
+      --text-color: #eee;
+      --accent-glow: rgba(255, 255, 255, 0.2);
+    }
+
     body {
-      font-family: sans-serif;
-      background: #1e1e2e url('img/Ja2M959.jpeg') no-repeat center center;
-      background-size: cover;
-      color: #eee;
+      font-family: system-ui, sans-serif;
+      background: var(--bg-main) url('img/Ja2M959.jpeg') no-repeat center center / cover;
+      color: var(--text-color);
       margin: 0;
       height: 100vh;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 2rem;
+      justify-content: center;
+      text-align: center;
     }
 
     header {
       position: absolute;
-      top: 10rem; /* 10 lines down */
-      left: 50%;
-      transform: translateX(-50%);
+      top: 10rem;
       width: 80%;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 1.4rem; /* bigger font */
-      color: #eee;
-      text-align: center;
+      font-size: 1.4rem;
       opacity: 0.95;
     }
 
-    #weather {
+    #weather, #datetime {
       font-weight: bold;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
     }
 
     #weather span {
-      font-size: 1.6rem; /* slightly bigger icon */
-    }
-
-    #datetime {
-      font-weight: bold;
+      font-size: 1.6rem;
+      margin-right: 0.3rem;
     }
 
     .search-box {
@@ -57,11 +50,6 @@
       max-width: 600px;
       margin-bottom: 4rem;
       position: relative;
-    }
-
-    .search-box form {
-      display: flex;
-      justify-content: center;
     }
 
     .search-box img {
@@ -75,22 +63,23 @@
       pointer-events: none;
     }
 
-    .search-box input[type="text"] {
+    .search-box input {
       width: 100%;
       padding: 0.8rem 1.5rem;
       border-radius: 50px;
       border: none;
       outline: none;
       font-size: 1rem;
-      background: #2a2a40;
-      color: #eee;
+      background: var(--bg-card);
+      color: var(--text-color);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-      transition: box-shadow 0.2s;
+      transition: box-shadow 0.2s, transform 0.1s;
       text-align: center;
     }
 
-    .search-box input[type="text"]:focus {
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    .search-box input:focus {
+      box-shadow: 0 0 15px var(--accent-glow);
+      transform: scale(1.02);
     }
 
     .grid {
@@ -102,15 +91,15 @@
     }
 
     .bookmark {
-      background: #2a2a40;
+      background: var(--bg-card);
       padding: 1rem;
       border-radius: 12px;
-      text-align: center;
-      transition: transform 0.2s;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .bookmark:hover {
-      transform: scale(1.1);
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 0 10px var(--accent-glow);
     }
 
     .bookmark img {
@@ -122,9 +111,19 @@
 
     a {
       text-decoration: none;
-      color: #eee;
+      color: inherit;
       font-weight: bold;
-      display: block;
+    }
+
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        gap: 0.5rem;
+        top: 6rem;
+      }
+      .search-box {
+        max-width: 90%;
+      }
     }
   </style>
 </head>
@@ -134,140 +133,52 @@
     <div id="datetime"></div>
   </header>
 
-  <!-- DuckDuckGo Search Box -->
   <div class="search-box">
-    <img src="https://duckduckgo.com/favicon.ico" alt="DuckDuckGo icon">
+    <img src="https://duckduckgo.com/favicon.ico" alt="DuckDuckGo">
     <form method="get" action="https://duckduckgo.com/">
       <input type="text" name="q" placeholder="Search DuckDuckGo...">
     </form>
   </div>
 
   <div class="grid">
-    <div class="bookmark">
-      <a href="https://ricardo-nga.github.io/my-website/">
-        <img src="img/star-in-black-of-five-points-shape.png" alt="favicon">
-        My Website
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://feedly.com/i/my/me">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=feedly.com">
-        Feedly
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.abola.pt/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=abola.pt">
-        A Bola
-      </a>
-    </div>    
-    <div class="bookmark">
-      <a href="https://www.reddit.com/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=reddit.com">
-        Reddit
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.youtube.com/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com">
-        YouTube
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://chatgpt.com/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=chatgpt.com">
-        ChatGPT
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://github.com/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=github.com">
-        Github
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://drive.google.com/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=google.com">
-        Google Drive
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.dropbox.com/home">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=dropbox.com">
-        Dropbox
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://calendar.google.com/calendar/u/0/r">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=calendar.google.com">
-        Calendar
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://tv.garden/pt">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=tv.garden">
-        TV
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://z-library.sk/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=z-library.sk">
-        ZLibrary
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.radiofutura.pt/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=radiofutura.pt">
-        Radio Futura
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.discogs.com/my">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=discogs.com">
-        Discogs
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://fbstreams.pm/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=fbstreams.pm">
-        Stream Sports
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.amazon.co.uk/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=amazon.co.uk">
-        Amazon
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://www.ebay.co.uk/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=ebay.co.uk">
-        Ebay
-      </a>
-    </div>
-    <div class="bookmark">
-      <a href="https://1337x.to/">
-        <img src="https://www.google.com/s2/favicons?sz=64&domain=1337x.to">
-        1337x
-      </a>
-    </div>
+    <!-- Bookmarks -->
+    <div class="bookmark"><a href="https://ricardo-nga.github.io/my-website/"><img src="img/star-in-black-of-five-points-shape.png">My Website</a></div>
+    <div class="bookmark"><a href="https://feedly.com/i/my/me"><img src="https://www.google.com/s2/favicons?sz=64&domain=feedly.com">Feedly</a></div>
+    <div class="bookmark"><a href="https://www.abola.pt/"><img src="https://www.google.com/s2/favicons?sz=64&domain=abola.pt">A Bola</a></div>
+    <div class="bookmark"><a href="https://www.reddit.com/"><img src="https://www.google.com/s2/favicons?sz=64&domain=reddit.com">Reddit</a></div>
+    <div class="bookmark"><a href="https://www.youtube.com/"><img src="https://www.google.com/s2/favicons?sz=64&domain=youtube.com">YouTube</a></div>
+    <div class="bookmark"><a href="https://chatgpt.com/"><img src="https://www.google.com/s2/favicons?sz=64&domain=chatgpt.com">ChatGPT</a></div>
+    <div class="bookmark"><a href="https://github.com/"><img src="https://www.google.com/s2/favicons?sz=64&domain=github.com">GitHub</a></div>
+    <div class="bookmark"><a href="https://drive.google.com/"><img src="https://www.google.com/s2/favicons?sz=64&domain=google.com">Google Drive</a></div>
+    <div class="bookmark"><a href="https://www.dropbox.com/home"><img src="https://www.google.com/s2/favicons?sz=64&domain=dropbox.com">Dropbox</a></div>
+    <div class="bookmark"><a href="https://calendar.google.com/calendar/u/0/r"><img src="https://www.google.com/s2/favicons?sz=64&domain=calendar.google.com">Calendar</a></div>
+    <div class="bookmark"><a href="https://tv.garden/pt"><img src="https://www.google.com/s2/favicons?sz=64&domain=tv.garden">TV</a></div>
+    <div class="bookmark"><a href="https://z-library.sk/"><img src="https://www.google.com/s2/favicons?sz=64&domain=z-library.sk">ZLibrary</a></div>
+    <div class="bookmark"><a href="https://www.radiofutura.pt/"><img src="https://www.google.com/s2/favicons?sz=64&domain=radiofutura.pt">Radio Futura</a></div>
+    <div class="bookmark"><a href="https://www.discogs.com/my"><img src="https://www.google.com/s2/favicons?sz=64&domain=discogs.com">Discogs</a></div>
+    <div class="bookmark"><a href="https://fbstreams.pm/"><img src="https://www.google.com/s2/favicons?sz=64&domain=fbstreams.pm">Stream Sports</a></div>
+    <div class="bookmark"><a href="https://www.amazon.co.uk/"><img src="https://www.google.com/s2/favicons?sz=64&domain=amazon.co.uk">Amazon</a></div>
+    <div class="bookmark"><a href="https://www.ebay.co.uk/"><img src="https://www.google.com/s2/favicons?sz=64&domain=ebay.co.uk">Ebay</a></div>
+    <div class="bookmark"><a href="https://1337x.to/"><img src="https://www.google.com/s2/favicons?sz=64&domain=1337x.to">1337x</a></div>
   </div>
 
-  <script>
-    // --- TIME ---
+  <script defer>
+    const datetimeEl = document.getElementById('datetime');
+    const weatherEl = document.getElementById('weather');
+
+    // Time updater
     function updateTime() {
       const now = new Date();
-      const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
-      const date = now.toLocaleDateString(undefined, options);
+      const date = now.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
       const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      document.getElementById('datetime').textContent = `${date} • ${time}`;
+      datetimeEl.textContent = `${date} • ${time}`;
     }
     updateTime();
-    setInterval(updateTime, 60000); // update every minute
+    setInterval(updateTime, 60000);
 
-    // --- WEATHER ---
-    function getWeatherIcon(description) {
-      const desc = description.toLowerCase();
+    // Weather
+    const getWeatherIcon = desc => {
+      desc = desc.toLowerCase();
       if (desc.includes('sun') || desc.includes('clear')) return '☀️';
       if (desc.includes('cloud')) return '☁️';
       if (desc.includes('rain')) return '🌧️';
@@ -275,25 +186,23 @@
       if (desc.includes('fog') || desc.includes('mist')) return '🌫️';
       if (desc.includes('thunder')) return '⛈️';
       return '🌡️';
-    }
+    };
 
-    function fetchWeather() {
-      fetch('https://wttr.in/Weston-super-Mare?format=j1')
-        .then(response => response.json())
-        .then(data => {
-          const current = data.current_condition[0];
-          const temp = current.temp_C + '°C';
-          const desc = current.weatherDesc[0].value;
-          const icon = getWeatherIcon(desc);
-          document.getElementById('weather').innerHTML = `<span>${icon}</span> ${desc}, ${temp}`;
-        })
-        .catch(() => {
-          document.getElementById('weather').textContent = 'Weather unavailable';
-        });
+    async function fetchWeather() {
+      try {
+        const res = await fetch('https://wttr.in/Weston-super-Mare?format=j1');
+        const data = await res.json();
+        const current = data.current_condition[0];
+        const desc = current.weatherDesc[0].value;
+        const icon = getWeatherIcon(desc);
+        weatherEl.innerHTML = `<span>${icon}</span>${desc}, ${current.temp_C}°C`;
+      } catch {
+        weatherEl.textContent = 'Weather unavailable';
+      }
     }
 
     fetchWeather();
-    setInterval(fetchWeather, 1800000); // refresh every 30 minutes
+    setInterval(fetchWeather, 1800000);
   </script>
 </body>
 </html>
