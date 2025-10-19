@@ -26,7 +26,7 @@
     }
 
     header {
-      position: fixed; /* makes it sticky */
+      position: fixed;
       top: 0;
       left: 0;
       right: 0;
@@ -36,8 +36,8 @@
       align-items: center;
       font-size: 1.4rem;
       opacity: 0.95;
-      backdrop-filter: blur(8px); /* modern blur */
-      background: rgba(30, 30, 46, 0.6); /* semi-transparent */
+      backdrop-filter: blur(8px);
+      background: rgba(30, 30, 46, 0.6);
       z-index: 100;
       box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
@@ -54,7 +54,7 @@
     .search-box {
       width: 100%;
       max-width: 600px;
-      margin-top: 8rem; /* space below fixed header */
+      margin-top: 8rem;
       margin-bottom: 4rem;
       position: relative;
     }
@@ -123,6 +123,81 @@
       font-weight: bold;
     }
 
+    /* --- RSS PANEL --- */
+    #rss-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--text-color);
+      color: var(--bg-main);
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.3rem;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      transition: background 0.3s, transform 0.2s;
+      z-index: 200;
+    }
+
+    #rss-toggle:hover {
+      background: #fff;
+      transform: scale(1.05);
+    }
+
+    #rss-box {
+      position: fixed;
+      bottom: 5rem;
+      right: 1.5rem;
+      background: var(--bg-card);
+      border-radius: 12px;
+      padding: 1rem;
+      width: 300px;
+      max-height: 260px;
+      overflow-y: auto;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      font-size: 0.9rem;
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      z-index: 150;
+    }
+
+    #rss-box.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    #rss-box h2 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      padding-bottom: 0.3rem;
+    }
+
+    #rss-feed {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #rss-feed li {
+      margin: 0.4rem 0;
+      line-height: 1.3;
+    }
+
+    #rss-feed a {
+      color: #80b3ff;
+      text-decoration: none;
+    }
+
+    #rss-feed a:hover {
+      text-decoration: underline;
+    }
+
     @media (max-width: 600px) {
       header {
         flex-direction: column;
@@ -171,6 +246,13 @@
     <div class="bookmark"><a href="https://1337x.to/"><img src="https://www.google.com/s2/favicons?sz=64&domain=1337x.to">1337x</a></div>
   </div>
 
+  <!-- RSS PANEL -->
+  <div id="rss-box">
+    <h2>📰 Latest News</h2>
+    <ul id="rss-feed"></ul>
+  </div>
+  <button id="rss-toggle" title="Toggle news">📰</button>
+
   <script defer>
     const datetimeEl = document.getElementById('datetime');
     const weatherEl = document.getElementById('weather');
@@ -210,6 +292,34 @@
 
     fetchWeather();
     setInterval(fetchWeather, 1800000);
+
+    // --- RSS FEED ---
+    async function loadRSS() {
+      const feedUrl = "https://feeds.bbci.co.uk/news/rss.xml";
+      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+      try {
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        const list = document.getElementById('rss-feed');
+        list.innerHTML = '';
+        data.items.slice(0, 6).forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<a href="${item.link}" target="_blank">${item.title}</a>`;
+          list.appendChild(li);
+        });
+      } catch (err) {
+        console.error('RSS load error:', err);
+      }
+    }
+    loadRSS();
+
+    // --- TOGGLE FUNCTION ---
+    const toggleBtn = document.getElementById('rss-toggle');
+    const rssBox = document.getElementById('rss-box');
+    toggleBtn.addEventListener('click', () => {
+      rssBox.classList.toggle('visible');
+      toggleBtn.textContent = rssBox.classList.contains('visible') ? '❌' : '📰';
+    });
   </script>
 </body>
 </html>
