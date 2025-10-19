@@ -26,14 +26,20 @@
     }
 
     header {
-      position: absolute;
-      top: 10rem;
-      width: 80%;
+      position: fixed; /* makes it sticky */
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1rem 10%;
       display: flex;
       justify-content: space-between;
       align-items: center;
       font-size: 1.4rem;
       opacity: 0.95;
+      backdrop-filter: blur(8px); /* modern blur */
+      background: rgba(30, 30, 46, 0.6); /* semi-transparent */
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
     #weather, #datetime {
@@ -48,6 +54,7 @@
     .search-box {
       width: 100%;
       max-width: 600px;
+      margin-top: 8rem; /* space below fixed header */
       margin-bottom: 4rem;
       position: relative;
     }
@@ -88,6 +95,7 @@
       gap: 1rem;
       width: 90%;
       max-width: 1000px;
+      margin-bottom: 2rem;
     }
 
     .bookmark {
@@ -119,10 +127,12 @@
       header {
         flex-direction: column;
         gap: 0.5rem;
-        top: 6rem;
+        font-size: 1.1rem;
+        padding: 0.8rem;
       }
       .search-box {
         max-width: 90%;
+        margin-top: 9rem;
       }
     }
   </style>
@@ -141,7 +151,6 @@
   </div>
 
   <div class="grid">
-    <!-- Bookmarks -->
     <div class="bookmark"><a href="https://ricardo-nga.github.io/my-website/"><img src="img/star-in-black-of-five-points-shape.png">My Website</a></div>
     <div class="bookmark"><a href="https://feedly.com/i/my/me"><img src="https://www.google.com/s2/favicons?sz=64&domain=feedly.com">Feedly</a></div>
     <div class="bookmark"><a href="https://www.abola.pt/"><img src="https://www.google.com/s2/favicons?sz=64&domain=abola.pt">A Bola</a></div>
@@ -166,7 +175,6 @@
     const datetimeEl = document.getElementById('datetime');
     const weatherEl = document.getElementById('weather');
 
-    // Time updater
     function updateTime() {
       const now = new Date();
       const date = now.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
@@ -176,7 +184,6 @@
     updateTime();
     setInterval(updateTime, 60000);
 
-    // Weather
     const getWeatherIcon = desc => {
       desc = desc.toLowerCase();
       if (desc.includes('sun') || desc.includes('clear')) return '☀️';
